@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="100">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
+      <itemPath>csapp.h</itemPath>
+      <itemPath>inet_1.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
+      <itemPath>CMakeLists.txt</itemPath>
+      <itemPath>adder.c</itemPath>
+      <itemPath>client.c</itemPath>
+      <itemPath>csapp.c</itemPath>
+      <itemPath>echo.c</itemPath>
+      <itemPath>home.html</itemPath>
+      <itemPath>hostinfo.c</itemPath>
+      <itemPath>main.c</itemPath>
+      <itemPath>server.c</itemPath>
+      <itemPath>tiny.c</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles" displayName="资源文件" projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="测试文件"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+      <logicalFolder name="f1" displayName="test" projectFiles="true" kind="TEST">
+        <itemPath>tests/simple.c</itemPath>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="重要文件"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <standard>3</standard>
+        </cTool>
+      </compileType>
+      <item path="CMakeLists.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="adder.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="client.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="csapp.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="csapp.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="echo.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <folder path="TestFiles/f1">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f1</output>
+        </linkerTool>
+      </folder>
+      <item path="home.html" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="hostinfo.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="inet_1.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="server.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="tests/simple.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="tiny.c" ex="false" tool="0" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+          <standard>3</standard>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+      </compileType>
+      <item path="CMakeLists.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="adder.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="client.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="csapp.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="csapp.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="echo.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <folder path="TestFiles/f1">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f1</output>
+        </linkerTool>
+      </folder>
+      <item path="home.html" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="hostinfo.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="inet_1.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="server.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="tests/simple.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="tiny.c" ex="false" tool="0" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

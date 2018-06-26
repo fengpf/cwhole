@@ -1,0 +1,37 @@
+1. stack overflow: training/thread/stack_overflow.c
+
+2. ipcs to figure out the status of shared memory and sem
+
+3. lsof /dev/shm/xxx and find the related process for POSIX shared memory
+training/process/posix-ipc
+~/develop/training/process/posix-ipc(shm,sem)
+
+4. use gdb to dump mutex owner
+training/thread/deadlock
+
+5. run perf
+training/debug/perf-sched: readme
+sudo perf sched record sleep 5
+sudo perf timechart
+firefox ....
+
+6. flamegraph: training/FlameGraph/on-cpu-example
+gcc exam.c
+sudo ./exam.sh
+firefox perf-kernel.svg
+
+7.ftrace: training/debug/ftrace
+cd proc
+make
+cd ..
+sudo insmod proc/proc.ko
+sudo ./function.sh cat /proc/test_dir/test_rw 
+cat /sys/kernel/debug/tracing/trace
+
+8. run lttv-gui and read lttng result: training/debug/lttng-traced-data/2.6.38.....
+
+9. run sar, top, iostat, iotop
+
+10. run ~/develop/training/preempt-rt/pi.c with "sudo"
+
+11. ~/develop/training/thread/signalsync.c

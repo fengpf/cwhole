@@ -1,0 +1,89 @@
+1. 通过cgroup分配CPU资源
+
+在/sys/fs/cgroup/cpu创建2个group，然后把放到不同group，
+调整group的cpu.shares,cpu.cfs_quota_us
+~/develop/training/thread/thread_life.c
+编译
+gcc thread_life.c -pthread
+
+```Bash
+跑3个a.out， 1,2进群A， 3进群B。
+/sys/fs/cgroup/cpu
+
+/sys/fs/cgroup/cpu$ sudo mkdir A
+/sys/fs/cgroup/cpu$ sudo mkdir B
+
+
+/sys/fs/cgroup/cpu/A$ sudo sh -c 'echo 16966 > cgroup.procs'
+/sys/fs/cgroup/cpu/A$ sudo sh -c 'echo 16986 > cgroup.procs'
+
+
+/sys/fs/cgroup/cpu/B$ sudo sh -c 'echo 17006 > cgroup.procs'
+
+/sys/fs/cgroup/cpu/A$ sudo sh -c 'echo 2048 > cpu.shares'
+
+杀掉后2个a.out，只留下第一个a.out
+baohua@baohua-VirtualBox:/sys/fs/cgroup/cpu/A$ cat cpu.cfs_period_us
+100000
+baohua@baohua-VirtualBox:/sys/fs/cgroup/cpu/A$ cat cpu.cfs_quota_us
+-1
+baohua@baohua-VirtualBox:/sys/fs/cgroup/cpu/A$ sudo sh -c 'echo 20000 > cpu.cfs_quota_us'
+```
+
+2. taskset修改线程affinity
+~/develop/training/thread/thread_life.c运行,设置不同的cpu affinity: 01, 02, 03
+taskset -a -p 02 `pidof a.out`
+
+top
+
+3. 用smem观察进程的内存变化
+	$ smem
+	$ smem --pie=command
+	$ smem --bar=command
+
+
+--------------- 做如下实验前，先执行：
+
+		sudo swapoff -a
+		sudo sh -c 'echo 1 > /proc/sys/vm/overcommit_memory'
+--------------
+
+4. 做I/O动作，观察page cache变化
+先放弃cache：
+进入/proc/sys/vm目录，执行
+sudo sh -c 'echo 3 > drop_caches'
+执行
+free
+访问硬盘
+#sudo sh -c 'cat /dev/sda1 > /dev/null'
+再次执行
+free
+
+对比两次free的输出
+
+5. 运行一个引起OOM的程序
+$ sudo swapoff -a
+$ sudo sh -c 'echo 1 > /proc/sys/vm/overcommit_memory'
+
+编译并运行: ~/develop/training/debug/mm/munch.c
+#dmesg
+
+运行firefox，改firefox oom_adj使得firefox的oom_score变大，再次运行~/develop/training/debug/mm/munch.c
+
+```Bash
+OOM:
+baohua@baohua-VirtualBox:/proc/17287$ echo 5 > oom_adj 
+baohua@baohua-VirtualBox:/proc/17287$ cat oom_score
+354
+baohua@baohua-VirtualBox:/proc/17287$ echo 8 > oom_adj 
+baohua@baohua-VirtualBox:/proc/17287$ cat oom_score
+530
+
+/proc/17287$ sudo sh -c 'echo 10 > oom_adj'
+```
+
+6. 观察一个进程的代码段rss/pss的变化
+运行1份./a.out
+运行2份./a.out
+运行3份./a.out
+查看/proc/<a.out-pid>/smaps | more文件第一段

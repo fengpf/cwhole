@@ -1,0 +1,45 @@
+实验课 - 第一天
+1.编译和调试一个简单的程序
+代码路径: 
+~/develop/training/debug/gdb/main.c
+(1)~/develop/training/debug/gdb$ gcc -g main.c
+(2)gdb ./a.out
+(3)b main
+(4)r
+(5)ctrl+x, a
+(6)n, s, ni, si, ctrl+x, 2
+(7)bt
+(8)p, x, set *(int *)address=2017
+(9)watch bk.year, "c"继续执行观察year被人改
+
+2. 用 strace和ltrace跟踪一个应用对内核和库的调用
+(1)main.c:
+main()
+{
+	int i=0;
+	printf("hello world\n");
+	printf("%d\n",i);
+}
+(2)gcc main.c
+(3)ltrace ./a.out
+(4)strace ./a.out
+
+3. fork, vfork
+~/develop/training/process/fork/main.c
+~/develop/training/process/fork/vfork.c
+~/develop/training/process/fork/fork_child.c
+编译运行上面三个程序，解释结果
+
+4. 实验进程生命周期各步骤
+~/develop/training/process/life_period.c
+体验父进程先死，体验孤儿进程被托孤；
+体验子进程死，但是父进程不wait。
+
+5. renice, chrt调整进程、线程，分析CPU利用率
+~/develop/training/thread/thread_life.c
+开启其中的死循环
+#if  1 /* change to #if 1 for debugging high cpu-loading issues */
+     while(1);
+#else
+
+

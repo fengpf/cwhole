@@ -1,0 +1,4 @@
+qemu-system-arm -s -S -cpu cortex-m3  -M lm3s6965evb -kernel add.elf
+
+#in another terminal, launch GDB:
+arm-none-eabi-gdb add.elf

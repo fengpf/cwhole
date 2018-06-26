@@ -1,0 +1,3 @@
+/usr/share/bcc/tools/biolatency -mT 1
+/usr/share/bcc/tools/runqlat -m 5
+

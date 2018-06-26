@@ -1,0 +1,5 @@
+gcc -g leak-example.c
+# run ./a.out
+# smem -P ^a.out periodically
+valgrind --tool=memcheck --leak-check=yes ./a.out
+gcc -g  -fsanitize=address lsan.c

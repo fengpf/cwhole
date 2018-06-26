@@ -1,0 +1,42 @@
+1. 设备驱动模型
+在电脑上
+~/develop/training/kernel/drivers/globalfifo/ch12
+sudo insmod globalfifo-dev.ko 
+观察/sys/bus/platform/devices目录
+sudo insmod globalfifo.ko
+观察/sys/bus/platform/drivers目录变化
+
+2. udev
+~/training/kernel/udev/netlink.c
+plug/unplug设备
+
+3. 运行globalfifo
+进入~/develop/training/kernel/drivers/globalfifo/ch12，加载
+sudo insmod globalfifo-dev.ko
+sudo insmod globalfifo.ko
+后，/dev/下面会自动创建/dev/globalfifo节点：
+baohua@baohua-VirtualBox:~/develop/training/kernel/drivers/globalfifo/ch12$ ls -l /dev/globalfifo 
+crw------- 1 root root 10, 54  4月 12 14:28 /dev/globalfifo
+在一个终端：
+sudo cat /dev/globalfifo 
+在另外一个终端：
+$ sudo sh -c 'echo hello > /dev/globalfifo'
+[sudo] password for baohua: 
+
+观察前一个cat的终端，分析代码
+
+4. signalio
+在一个终端运行：
+~/develop/training/kernel/drivers/globalfifo/ch12$ sudo ../ch9/globalfifo_test 
+...
+
+在另外一个终端：
+sudo sh -c 'echo hello > /dev/globalfifo'
+
+分析globalfifo_test中打印的
+receive a signal from globalfifo,signalnum:29
+
+分析~/develop/training/kernel/drivers/globalfifo/ch9/globalfifo_test.c程序
+
+5. 反汇编dtb
+dtc -I dtb -O dts -o 1.dts vexpress-v2p-ca9.dtb

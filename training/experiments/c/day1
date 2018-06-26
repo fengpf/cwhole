@@ -1,0 +1,57 @@
+1.运行~/develop/training/program-c/const下面的程序
+先去掉注释"//"
+ 8 {//     g = 1;
+
+gcc main.c g.c看能否编译过；
+
+再加上"//"，编译，运行，看程序是否崩溃？为什么？
+
+同样的程序，如果放在非Linux，不带MMU/MPU的单片机上面跑，会怎样？
+
+2.观察0长数组的代码
+~/develop/training/program-c/zero-length-array
+
+3.观察有volatile和无volatile情况下，反汇编的差异.
+代码路径：
+~/develop/training/program-c/volatile
+里面有2个文件
+volatile.c
+no-volatile.c
+运行make，对比volatile.asm和no-volatile.asm反汇编出来的差异.
+meld volatile.asm no-volatile.asm
+
+4.进入~/develop/training/program-c/typeof目录，仔细看代码max.c
+执行
+make gnu
+看看报的错误
+
+把这段代码
+        int a=3;
+        float b=0.5;
+        max(a,b);
+改为
+        int a=3;
+        int b=1;
+        max(a,b);
+
+再执行：make gnu
+看看报不报错误。
+
+5.进入~/develop/training/program-c/align,编译：
+gcc align.c
+运行./a.out
+看看各个结构体打印sizeof的原因.
+
+6. 进入~/develop/training/program-c/buffer_overflow
+分别观察test1.c, test2.c, test4.c
+分别编译，和运行它们。
+gcc test1.c
+./a.out
+
+gcc test2.c
+./a.out
+
+gcc test4.c
+./a.out
+
+理解内存溢出造成的奇怪bug

@@ -1,0 +1,21 @@
+insmod proc/proc.ko
+./function.sh cat /proc/test_dir/test_rw 
+cat /sys/kernel/debug/tracing/trace
+
+#we can also use perf-tools/bin/funcgraph
+../../perf-tools/bin/funcgraph test_proc_show
+../../perf-tools/bin/functrace test_proc_show
+
+#当参数少于7个时， 参数从左到右放入寄存器: rdi, rsi, rdx, rcx, r8, r9。
+#当参数为7个以上时， 前 6 个与前面一样， 但后面的依次从 “右向左” 放入栈中，即和32位汇编一样。
+../../perf-tools/bin/kprobe 'p:myprobe test_proc_show %di %si'
+../../perf-tools/bin/kprobe 'p:myprobe test_proc_write %di %si %dx %cx'
+../../perf-tools/bin/kprobe -s 'p:myprobe test_proc_show %di %si'
+
+#echo -e '100\x00' > /proc/test_dir/test_rw
+../../perf-tools/bin/kprobe 'p:myprobe test_proc_write %di buf=+0(%si):string %dx %cx'
+../../perf-tools/bin/kprobe 'r:test_proc_write $retval'
+
+../../perf-tools/bin/uprobe 'r:bash:readline +0($retval):string'
+
+../../perf-tools/bin/uprobe -l bash

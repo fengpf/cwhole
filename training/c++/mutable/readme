@@ -1,0 +1,18 @@
+1. compile
+gcc -c -o mutable.o mutable.cpp 
+
+
+2. change code to:
+class test
+{
+        /*mutable*/ int a;
+	...
+}
+
+compile:
+
+mutable.cpp: In member function ‘void test::fun() const’:
+mutable.cpp:11:5: error: assignment of member ‘test::a’ in read-only object
+   a += b;
+     ^
+

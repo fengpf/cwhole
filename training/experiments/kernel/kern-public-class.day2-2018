@@ -1,0 +1,69 @@
+1. loglevel, initcall_debug
+修改第一个分区里面extlinux下面的extlinux.conf，变为如下内容：
+label Linux 4.x
+kernel ../zImage
+append root=/dev/mmcblk0p2 rootwait loglevel=8 initcall_debug
+fdtdir ../
+
+注意增加的loglevel=8 initcall_debug
+
+2. hello module init
+在hello.c最开头添加pr_fmt的定义：
+#define pr_fmt(fmt)        "hello: " fmt
+
+在module init和exit函数里面，加一些打印
+pr_err("%s: ERROR\n", __func__);
+pr_info("%s: INFO\n", __func__);
+pr_warn("%s: WARN\n", __func__);
+
+在板子上echo 不同的数字，如2,3,4,5,6,7到/proc/sys/kernel/printk,
+modprobe hello和rmmod hello，看打印变化。
+
+3. kernel oops
+进入~/develop/pcduino/kernel/drivers/misc，把globalfifo代码拷贝过来：
+baohua@baohua-VirtualBox:~/develop/pcduino/kernel/drivers/misc$ cp ~/develop/training/kernel/drivers/globalfifo/ch12/globalfifo.c .
+baohua@baohua-VirtualBox:~/develop/pcduino/kernel/drivers/misc$ cp ~/develop/training/kernel/drivers/globalfifo/ch12/globalfifo-dev.c .
+
+修改drivers/misc下的Makefile，强行添加globalfifo-dev和globalfifo为module:
+obj-m           += globalfifo.o
+obj-m           += globalfifo-dev.o
+
+
+在globalfifo.c里面干这样的坏事：
+static ssize_t globalfifo_read(struct file *filp, char __user *buf,
+                               size_t count, loff_t *ppos)
+{
+        int ret;
+        struct globalfifo_dev *dev = container_of(filp->private_data,
+                struct globalfifo_dev, miscdev);
+
++        int *p=0;
++        *p=100;
+
+
+在电路板上用globalfifo：
+root@pcduino3:~# modprobe globalfifo-dev
+root@pcduino3:~# modprobe globalfifo    
+root@pcduino3:~# cat /dev/globalfifo 
+[  189.410000] Unable to handle kernel NULL pointer dereference at virtual address 00000000
+[  189.420000] pgd = edc90000
+[  189.420000] [00000000] *pgd=6dd6f831, *pte=00000000, *ppte=00000000
+[  189.430000] Internal error: Oops: 817 [#1] SMP ARM
+[  189.430000] Modules linked in: globalfifo globalfifo_dev [last unloaded: hello]
+[  189.440000] CPU: 1 PID: 314 Comm: cat Not tainted 4.4.0 #31
+
+arm-linux-gnueabi-objdump反汇编分析哪句C语言引起的oops
+
+4. kernel debug
+
+use qemu-system-arm with "-s -S", and use arm gdb to debug embedded kernel
+
+shell1:
+~/develop/linux/extra/ run-nolcd.sh or run-lcd.sh
+before running, add -s -S in the script.
+
+shell2:
+cd ~/develop/linux
+arm-linux-gnueabihf-gdb vmlinux
+# target remote :1234
+

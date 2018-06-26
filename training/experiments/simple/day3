@@ -1,0 +1,16 @@
+1. gdb attach多线程
+use gdb to dump mutex owner
+training/thread/deadlock
+
+2. perf sched
+training/debug/perf-sched: readme
+sudo perf sched record sleep 5
+sudo perf timechart
+firefox output.svg
+
+3. posix进程间通信
+~/develop/training/process/posix-ipc
+观察/dev/shm/xxx
+
+4. 异步信号同步化
+~/develop/training/thread/signalsync.c 

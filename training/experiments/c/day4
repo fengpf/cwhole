@@ -1,0 +1,166 @@
+1.读和运行程序~/develop/training/program-c/puthex 
+理解int2hexstr()的优化逻辑
+
+2.编译~/develop/training/program-c/barrier
+#define barrier() __asm__ __volatile__("": : :"memory")
+
+int A, B;
+
+void foo()
+{
+        A = B + 1;
+//      barrier();
+        B = 0;
+}
+第一次注释掉barrier，
+编译：
+arm-linux-gnueabihf-gcc -O3 -c exam.c -o exam.o
+反汇编：
+arm-linux-gnueabihf-objdump -d exam.o > 1.asm
+
+第二次编译进barrier(去掉//)，
+编译：
+arm-linux-gnueabihf-gcc -O3 -c exam.c -o exam.o
+反汇编：
+arm-linux-gnueabihf-objdump -d exam.o > 2.asm
+
+对比1.asm和2.asm，看看指令序列的差异
+
+3. 分析下面一段FreeRTOS操作系统的源码，看看它对内存屏障指令的应用：
+https://github.com/jameswalmsley/FreeRTOS/blob/master/FreeRTOS/Source/portable/GCC/ARM_CM3/port.c
+void vPortEnterCritical( void )
+{
+	portDISABLE_INTERRUPTS();
+	uxCriticalNesting++;
+	__asm volatile( "dsb" );
+	__asm volatile( "isb" );
+	
+	/* This is not the interrupt safe version of the enter critical function so
+	assert() if it is being called from an interrupt context.  Only API 
+	functions that end in "FromISR" can be used in an interrupt.  Only assert if
+	the critical nesting count is 1 to protect against recursive calls if the
+	assert function also uses a critical section. */
+	if( uxCriticalNesting == 1 )
+	{
+		configASSERT( ( portNVIC_INT_CTRL_REG & portVECTACTIVE_MASK ) == 0 );
+	}
+}
+
+4. 下面的函数是否可重入，如何把它改造为可重入？
+char *strtoupper(char *string)
+{
+                static char buffer[MAX_STRING_SIZE];
+                int index;
+
+                for (index = 0; string[index]; index++)
+                                buffer[index] = toupper(string[index]);
+                buffer[index] = 0;
+
+                return buffer;
+}
+下一个这样的含有2个任务的程序main.c
+#include <stdio.h>
+#include <pthread.h>
+#include <ctype.h>
+#include <sys/types.h>
+
+char *strtoupper(char *string)
+{
+                static char buffer[1000];
+                int index;
+
+                for (index = 0; string[index]; index++)
+                                buffer[index] = toupper(string[index]);
+                buffer[index] = 0; 
+
+                return buffer;
+}
+
+void *thread_fun(void *param)
+{
+	while (1) {
+		char *cap = strtoupper((char *)param);
+		if(strcmp(cap, "HELLO WORLD") && strcmp(cap, "WORLD HELLO"))
+			printf("%s\n", strtoupper((char *)param));
+	}
+}
+
+int main(void)
+{
+	pthread_t tid1, tid2;
+	int ret;
+
+	printf("main pid:%d, tid:%lu\n", getpid(), pthread_self());
+
+	ret = pthread_create(&tid1, NULL, thread_fun, "hello world");
+	if (ret == -1) {
+		perror("cannot create new thread");
+		return 1;
+	}
+
+	ret = pthread_create(&tid2, NULL, thread_fun, "world hello");
+	if (ret == -1) {
+		perror("cannot create new thread");
+		return 1;
+	}
+
+	if (pthread_join(tid1, NULL) != 0) {
+		perror("call pthread_join function fail");
+		return 1;
+	}
+
+	if (pthread_join(tid2, NULL) != 0) {
+		perror("call pthread_join function fail");
+		return 1;
+	}
+
+	return 0;
+}
+
+编译之：
+gcc two-loops.c -pthread
+并运行：
+./a.out
+看看各种奇葩的非HELLO WORLD和WORLD HELLO的输出。体会可重入问题的重要性。
+
+5.写一个这样的程序test.c：
+#include <stdio.h>
+#include <stdlib.h>
+
+void a() 
+{
+        volatile int i=20000000;
+        while(i--);
+}
+
+
+void c() 
+{
+        volatile int i=40000000;
+        while(i--);
+}
+
+int b() 
+{
+        volatile int i=50000000;
+        while(i--);
+
+        a();
+        c();
+        return 0;
+}
+
+int main()
+{
+        printf(" main() function()\n");
+        b();
+}
+编译运行之：
+gcc -pg test.c
+./a.out
+结束后，你会在当前目录看到一个gmon.out的文件，
+分析之：
+ gprof -b a.out gmon.out
+看看结果，理解性能问题为什么需要profiling。
+
+

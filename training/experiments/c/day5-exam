@@ -1,0 +1,29 @@
+下面的代码存在各种各样的内存访问问题及违背“防御性编程”思想的地方，请用splint扫描这份代码，并修复其中*所有*的问题。
+
+扫描方法：splint main.c +bounds +showconstraintlocation -mustfreefresh
+
+#include <stdio.h>
+#include <string.h>
+
+char *get_pass(void)
+{
+	char password[10];
+	scanf("%s\n", password);
+	return password;
+}
+
+void echo_pass(char *str)
+{
+	char password[10];
+	strcpy(password, get_pass());
+	printf("%s\n", password);
+}
+
+int main(void)
+{
+	printf("Enter password:\n");
+	echo_pass();
+
+	return 0;
+} 
+

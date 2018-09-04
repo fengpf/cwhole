@@ -41,5 +41,20 @@ int main(int argc, char** argv) {
 
     printf("%%SUITE_FINISHED%% time=0\n");
 
+
+    test:
+
+    printf("test goto\n");
+    exit(0);
+    
+    for(int i = 10; i >= 0; i--)
+    {
+       printf("%d\n",i);
+       if (i==5){
+           goto test;
+       }
+    }
+    
+
     return (EXIT_SUCCESS);
 }

@@ -21,7 +21,7 @@ void swap2(int* a, int* b){
 }
 
 
-//使用引用传递交换两个变量的值
+// ?
 void swap3(int* a, int* b){
    printf("1111 value: a=%d,b=%d, address:  a=%p,b=%p\n", *a, *b,  &a, &b);
    int* temp;
@@ -38,8 +38,8 @@ int main(){
 
     printf("before swap i=%d,j=%d\t address: i=%p,j=%p\n", i, j, &i, &j);
     // swap(i,j);
-    // swap2(&i, &j);
-    swap3(&i, &j);
+    swap2(&i, &j);
+    // swap3(&i, &j);
     printf("after swap i=%d,j=%d\t address: i=%p,j=%p\n", i, j, &i, &j);
 }
 

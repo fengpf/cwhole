@@ -1,0 +1,15 @@
+.*.swp
+*.o
+*.xo
+*.so
+*.d
+*.log
+
+/main
+.vscode/*
+.idea/*
+
+network/w
+network/epoll
+network/poll
+network/select

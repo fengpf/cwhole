@@ -5,14 +5,14 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
- 
+
 int main(int argc, char *argv[])
 {
  
 	int ret;
 	int fd;
 	
-	ret = mkfifo("test_fifo", 0666); // 创建有名管道
+	ret = mkfifo("./test_fifo", 0666); // 创建有名管道
 	if(ret != 0){
 		perror("mkfifo：");
 	}

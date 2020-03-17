@@ -14,3 +14,5 @@ network/epoll
 network/poll
 network/select
 /bin
+
+/base/*.out

@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 
-int main(int argc, char* argv[]){
+int main(int argc, char const *argv[]){
     int a =10;
     printf("a=%d, addr=%p\n",a, &a);
    char* s="hello";

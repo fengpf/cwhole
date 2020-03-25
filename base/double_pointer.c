@@ -13,19 +13,20 @@ int main()
 		key = malloc(sizeof(*entry));
 		table[i] = key;
 	}
+    
 
 	for (i=0; i<2; i++)
 	{
 		printf("%p\n", table[i]);
 	}
-       
-       int a = 1;
-       int b = 2;
+      
+    int a = 1;
+    int b = 2;
 
-       table[0] = &a;
-       table[1] = &b;       
+    table[0] = &a;
+    table[1] = &b;       
         
-        for (i=0; i<2; i++)
+    for (i=0; i<2; i++)
 	{
 		if (i==0) {
 		   printf("%d\n", *table[i]);
@@ -35,7 +36,10 @@ int main()
 		   printf("%d\n", *table[i]);
 		}
 
-	}
+        
+        //free(table[i]);
 
+	}
+    
 }
 

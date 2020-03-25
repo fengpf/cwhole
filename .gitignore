@@ -4,6 +4,7 @@
 *.so
 *.d
 *.log
+*.out
 
 /main
 .vscode/*

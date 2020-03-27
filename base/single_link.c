@@ -15,17 +15,20 @@ typedef struct node Node;
 
 int main(int argc, char *argv[])
 {
-     Node *head = (Node*) malloc (sizeof(Node));
-     //Node *head = &Node;
+     struct node *head = (struct node*) malloc (sizeof(struct node));
+     //Node *head = (Node*) malloc (sizeof(Node));
+     //Node *head = &Node;//错误
      
      int i;
 
-     Node *p;
+     struct node *p;
+     //Node *p;
      
      p = head;
      for(i=1; i<5; i++)
      {    
-	     Node *q = (Node*) malloc(sizeof(Node));
+         struct node *q = (struct node*) malloc (sizeof(struct node));
+	     //Node *q = (Node*) malloc(sizeof(Node));
 	     //Node *q = &Node;//错误
 	     q->val = i;
 	     printf("q: addr(%p)\n", q);
@@ -36,7 +39,8 @@ int main(int argc, char *argv[])
      printf("head: addr(%p), value(%d)\n", head, head->val);
      printf("p: addr(%p), value(%d)\n", p, p->val);
      
-     Node *t;
+     struct node *t;
+     //Node *t;
      for (t=head; t; t = t->next)
      {
 	     printf("t: addr(%p), value(%d)\n", t, t->val);

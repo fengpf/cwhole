@@ -18,7 +18,7 @@ struct node *head;
 void construct();
 void print(struct node *t);
 void delete(struct node *entry);
-
+void delete_optimise(struct node *entry);
 int main(int argc, char *argv[])
 {
  
@@ -27,11 +27,13 @@ int main(int argc, char *argv[])
 
    
     printf("删除头节点\n");
-    delete(head);
+    //delete(head);
+    delete_optimise(head);
     print(head);
     
     printf("删除头节点之后的某个节点\n");
-    delete(head->next);
+    //delete(head->next);
+    delete_optimise(head->next);
     print(head);
 }
 
@@ -91,3 +93,18 @@ void delete(struct node *entry)
      }
 
 }
+
+void delete_optimise(struct node *entry)
+{
+    struct node **indirect;
+    indirect = &head;
+
+    while(*indirect != entry)
+    {
+         //indirect = & ((*indirect)->next);
+         indirect = & (*indirect)->next; //& 比 -> 优先级高
+    }
+
+    *indirect = entry->next;
+}
+

@@ -1,0 +1,3 @@
+/data/app/c/cwhole/redis_tutorial/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/data/app/c/cwhole/redis_tutorial/cmake-build-debug/CMakeFiles/edit_cache.dir
+/data/app/c/cwhole/redis_tutorial/cmake-build-debug/CMakeFiles/redis_tutorial.dir

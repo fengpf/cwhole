@@ -8,14 +8,29 @@
 void bprint(int p);
 void bitset();
 
+void mock32chars(char* c) {
+    for (int i = 0; i < 32; ++i) {
+       c[i]='a';
+    }
+
+//    for (int j = 0; j < 32; ++j) {
+//        printf("c:%c\n", c[j]);
+//    }
+}
+
 int main (int argc, char *argv[]){
     sds str;
-//    char a[]={'a'};
-    char a = 'a'; // char	1 字节	-128 到 127 或 0 到 255
+
+//    char a[]={'a', 'b', 'c'};
+//    char a = 'a'; // char	1 字节	-128 到 127 或 0 到 255
+     //字符串长度超过31
+    char *a;
+    a = (char*) sds_malloc(31);
+    mock32chars(a);
 
 //  sds 返回给上层的，不是结构体首地址，而是指向内容的buf指针
-    str = sdsnewlen(&a, 1);//01100001 低3位存类型 001，高5位存长度 01100
-    printf("str:%s, %lu\n", str, sdslen(str));
+    str = sdsnewlen(a, 31);//11111000 低3位存类型 000，高5位存长度 11111 = 11111000 = 16+8+4+2+1 =31
+    printf("str:%s, %lu\n", str, sdslen(str)); //str:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa, 32
 
     printf("sdshdr5:%lu\n", sizeof(struct sdshdr5)); // 1
     printf("sdshdr8:%lu\n", sizeof(struct sdshdr8)); // 3

@@ -19,8 +19,8 @@ network/select
 /base/*.out
 
 
-/data/app/c/cwhole/redis_tutorial/*.o
-/data/app/c/cwhole/redis_tutorial/sds
-/data/app/c/cwhole/redis_tutorial/cmake-build-debug
-/data/app/c/cwhole/redis_tutorial/CMakeFiles
-/data/app/c/cwhole/redis_tutorial/CMakeCache.txt
+/redis_tutorial/*.o
+/redis_tutorial/sds
+/redis_tutorial/cmake-build-debug
+/redis_tutorial/CMakeFiles
+/redis_tutorial/CMakeCache.txt

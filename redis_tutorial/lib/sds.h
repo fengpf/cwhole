@@ -46,14 +46,19 @@ extern const char *SDS_NOINIT;
 
 typedef char *sds;
 
+//flags:低3位存储类型，高5位预留
+
 /* Note: sdshdr5 is never used, we just access the flags byte directly.
  * However is here to document the layout of type 5 SDS strings. */
 struct __attribute__ ((__packed__)) sdshdr5 {
+    //低3位表示类型，高5位表示长度，长度区间范围：0~31 （2^5-1， 高5位2进制位全为1， 11111=16+8+4+2+1=31）
     unsigned char flags; /* 3 lsb of type, and 5 msb of string length */
     char buf[];
 };
 struct __attribute__ ((__packed__)) sdshdr8 {
+    //已使用长度，用1byte存储
     uint8_t len; /* used */
+    //总长度，用1byte存储
     uint8_t alloc; /* excluding the header and null terminator */
     unsigned char flags; /* 3 lsb of type, 5 unused bits */
     char buf[];
@@ -88,19 +93,21 @@ struct __attribute__ ((__packed__)) sdshdr64 {
 #define SDS_HDR(T,s) ((struct sdshdr##T *)((s)-(sizeof(struct sdshdr##T))))
 #define SDS_TYPE_5_LEN(f) ((f)>>SDS_TYPE_BITS)
 
-//1000
+//000
 // &
-//0111
-// 0
+//111
+// 1
 static inline size_t sdslen(const sds s) {
     unsigned char flags = s[-1];
-    switch(flags&SDS_TYPE_MASK) {
+    printf("flags:%d, mask:%d \n", flags, flags&SDS_TYPE_MASK);
+    switch(flags&SDS_TYPE_MASK) {//取低3位，计算类型
         case SDS_TYPE_5:
-            printf("s:%p, flags:%d, mask:%d, len:%d\n", s, flags, flags&SDS_TYPE_MASK, flags>>SDS_TYPE_BITS);
+            printf("SDS_TYPE_5 s->len:%d\n", flags>>SDS_TYPE_BITS);
 
             return SDS_TYPE_5_LEN(flags);
 
         case SDS_TYPE_8:
+            printf("SDS_TYPE_8 s->len:%d\n", SDS_HDR(8,s)->len); //SDS_TYPE_8 s->len:32
             return SDS_HDR(8,s)->len;
         case SDS_TYPE_16:
             return SDS_HDR(16,s)->len;

@@ -24,3 +24,9 @@ network/select
 /redis_tutorial/cmake-build-debug
 /redis_tutorial/CMakeFiles
 /redis_tutorial/CMakeCache.txt
+
+/c++_tutorial/*.o
+/c++_tutorial/cmake-build-debug
+/c++_tutorial/CMakeFiles
+/c++_tutorial/CMakeCache.txt
+/c++_tutorial/cmake-build-debug/CMakeFiles/clion-log.txt

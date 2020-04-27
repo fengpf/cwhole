@@ -1,3 +1,0 @@
-/Users/Shared/Relocated Items/Security/data/app/c/cwhole/c++_tutorial/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/Shared/Relocated Items/Security/data/app/c/cwhole/c++_tutorial/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/Shared/Relocated Items/Security/data/app/c/cwhole/c++_tutorial/cmake-build-debug/CMakeFiles/c___tutorial.dir

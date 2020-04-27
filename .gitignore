@@ -17,3 +17,10 @@ network/select
 /bin
 
 /base/*.out
+
+
+/redis_tutorial/*.o
+/redis_tutorial/sds
+/redis_tutorial/cmake-build-debug
+/redis_tutorial/CMakeFiles
+/redis_tutorial/CMakeCache.txt
